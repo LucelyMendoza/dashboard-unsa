@@ -1,0 +1,159 @@
+'use client';
+
+import React, { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { DashboardDataset, UserSession } from '@/types/dashboard';
+import { parseExcelToDataset, ExcelParseError } from '@/lib/excelParser';
+import { getSession, clearSession, getRoleScope } from '@/lib/session';
+import { DEFAULT_FILTERS, FilterState, filterAgg, filterScorecard, groupBy } from '@/lib/data-utils';
+import AdminUploadModal from '@/components/AdminUploadModal';
+import TopBar from '@/components/TopBar';
+import FiltersBar from '@/components/FiltersBar';
+import Tabs, { TabDef } from '@/components/Tabs';
+import KpiGrid from '@/components/KpiGrid';
+import TrendChart from '@/components/TrendChart';
+import StackedChart from '@/components/StackedChart';
+import IndicatorCards from '@/components/IndicatorCards';
+import SchoolScorecard from '@/components/SchoolScorecard';
+import SubjectHeatmap from '@/components/SubjectHeatmap';
+import TeacherSearch from '@/components/TeacherSearch';
+
+const TABS: TabDef[] = [
+  { key: 'resumen', label: 'Resumen' },
+  { key: 'escuelas', label: 'Escuelas' },
+  { key: 'asignaturas', label: 'Asignaturas' },
+  { key: 'docentes', label: 'Docentes' },
+];
+
+export default function DashboardPage() {
+  const router = useRouter();
+  // Lazy init: lee la sesión una sola vez al montar (no requiere efecto).
+  const [session] = useState<UserSession | null>(() => getSession());
+  const [dataset, setDataset] = useState<DashboardDataset | null>(null);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [tab, setTab] = useState('resumen');
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const s = getSession();
+    if (!s) return DEFAULT_FILTERS;
+    const scope = getRoleScope(s);
+    return { ...DEFAULT_FILTERS, facultad: scope.facultad, escuela: scope.escuela };
+  });
+
+  // 1. Verificar sesión (guard). Sin sesión → login. Es navegación, no setState.
+  useEffect(() => {
+    if (!session) router.replace('/login');
+  }, [session, router]);
+
+  // 2. Cargar el JSON de datos
+  useEffect(() => {
+    fetch('/data/initialData.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('No se encontró public/data/initialData.json');
+        return res.json();
+      })
+      .then((data: DashboardDataset) => setDataset(data))
+      .catch((err) => {
+        console.error(err);
+        setErrorMsg('Falta el archivo de datos: verifica que public/data/initialData.json exista y sea un JSON válido.');
+      });
+  }, []);
+
+  const handleLogout = () => {
+    clearSession();
+    router.replace('/login');
+  };
+
+  const handleExcelUpload = (buffer: ArrayBuffer): { ok: true } | { ok: false; error: string } => {
+    if (!dataset) return { ok: false, error: 'El dataset aún no ha terminado de cargar.' };
+    try {
+      const updated = parseExcelToDataset(buffer, dataset);
+      setDataset(updated);
+      return { ok: true };
+    } catch (e) {
+      const msg = e instanceof ExcelParseError ? e.message : 'No se pudo procesar el archivo. Verifica el formato.';
+      return { ok: false, error: msg };
+    }
+  };
+
+  const scope = session ? getRoleScope(session) : null;
+
+  const filteredAgg = useMemo(() => (dataset ? filterAgg(dataset.ag, filters) : []), [dataset, filters]);
+  const groups = useMemo(
+    () => (dataset ? groupBy(filteredAgg, filters.agrupacion === 'sem' ? (r) => r.PERIODO : (r) => String(r.AÑO)) : []),
+    [dataset, filteredAgg, filters.agrupacion]
+  );
+  const scorecardRows = useMemo(() => (dataset ? filterScorecard(dataset.sc, filters) : []), [dataset, filters]);
+  const chScope = filters.facultad === 'ALL' ? 'UNSA' : filters.facultad;
+
+  if (errorMsg) {
+    return (
+      <div className="p-8 text-center text-red-600 bg-red-50 rounded-lg max-w-lg mx-auto mt-10 border border-red-200">
+        <p className="font-bold text-sm">⚠️ {errorMsg}</p>
+      </div>
+    );
+  }
+
+  if (!dataset || !session || !scope) {
+    return <div className="p-8 text-center text-xs text-slate-500 font-medium">Cargando datos del sistema...</div>;
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-5 w-full">
+      <TopBar
+        session={session}
+        onLogout={handleLogout}
+        adminAction={session.role === 'ADMIN' ? <AdminUploadModal onDataUpdated={handleExcelUpload} dataset={dataset} /> : undefined}
+      />
+
+      <FiltersBar dataset={dataset} filters={filters} onChange={setFilters} scope={scope} />
+
+      <Tabs tabs={TABS} active={tab} onChange={setTab} />
+
+      {tab === 'resumen' && (
+        <div className="space-y-5">
+          <KpiGrid groups={groups} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-bold text-[var(--ink)]">Evolución de Tasas</h3>
+                <span className="text-[11px] text-slate-400">
+                  {chScope}
+                  {filters.escuela !== 'ALL' ? ` / ${filters.escuela}` : ''}
+                </span>
+              </div>
+              <TrendChart groups={groups} indicador={filters.indicador} />
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4">
+              <h3 className="text-sm font-bold text-[var(--ink)] mb-2">Composición de resultados</h3>
+              <StackedChart groups={groups} />
+            </div>
+          </div>
+
+          <IndicatorCards groups={groups} />
+        </div>
+      )}
+
+      {tab === 'escuelas' && (
+        <div className="bg-white border border-slate-200 rounded-xl p-4">
+          <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Scorecard por escuela</h3>
+          <SchoolScorecard rows={scorecardRows} />
+        </div>
+      )}
+
+      {tab === 'asignaturas' && (
+        <div className="bg-white border border-slate-200 rounded-xl p-4">
+          <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Aprobación por asignatura y periodo</h3>
+          <SubjectHeatmap dataset={dataset} filters={filters} />
+        </div>
+      )}
+
+      {tab === 'docentes' && (
+        <div className="bg-white border border-slate-200 rounded-xl p-4">
+          <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Buscador de docentes</h3>
+          <TeacherSearch dataset={dataset} filters={filters} />
+        </div>
+      )}
+    </div>
+  );
+}

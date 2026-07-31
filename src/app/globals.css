@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #faf8f5;
+  --ink: #1e293b;
+  --accent: #2563eb;
+  --apr: #2563eb;
+  --des: #d97706;
+  --ret: #7c3aed;
+  --abn: #dc2626;
+  --nc: #475569;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.font-serif {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
