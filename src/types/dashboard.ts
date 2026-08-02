@@ -1,4 +1,7 @@
-export type UserRole = 'ADMIN' | 'VICERRECTOR' | 'DECANO' | 'DIRECTOR';
+export type UserRole = 'ADMIN' | 'VICERRECTOR' | 'DECANO' | 'AUTORIDAD' | 'DIRECTOR';
+
+/** Claves de pestaña del tablero (deben coincidir con TABS en dashboard/page.tsx). */
+export type DashboardTab = 'resumen' | 'escuelas' | 'asignaturas' | 'docentes';
 
 export interface UserSession {
   email: string;

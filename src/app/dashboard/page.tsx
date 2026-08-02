@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { DashboardDataset, UserSession } from '@/types/dashboard';
 import { parseExcelToDataset, ExcelParseError } from '@/lib/excelParser';
 import { getSession, clearSession, getRoleScope } from '@/lib/session';
+import { getAllowedTabs, canViewTab } from '@/lib/roles';
+import type { DashboardTab } from '@/types/dashboard';
 import { DEFAULT_FILTERS, FilterState, filterAgg, filterScorecard, groupBy } from '@/lib/data-utils';
 import AdminUploadModal from '@/components/AdminUploadModal';
 import TopBar from '@/components/TopBar';
@@ -18,7 +20,7 @@ import SchoolScorecard from '@/components/SchoolScorecard';
 import SubjectHeatmap from '@/components/SubjectHeatmap';
 import TeacherSearch from '@/components/TeacherSearch';
 
-const TABS: TabDef[] = [
+const TABS: TabDef<DashboardTab>[] = [
   { key: 'resumen', label: 'Resumen' },
   { key: 'escuelas', label: 'Escuelas' },
   { key: 'asignaturas', label: 'Asignaturas' },
@@ -31,7 +33,12 @@ export default function DashboardPage() {
   const [session] = useState<UserSession | null>(() => getSession());
   const [dataset, setDataset] = useState<DashboardDataset | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
-  const [tab, setTab] = useState('resumen');
+  // Arranca en la primera pestaña permitida para el rol (cada rol ve sólo las suyas).
+  const [tab, setTab] = useState<DashboardTab>(() => {
+    const s = getSession();
+    const allowed = getAllowedTabs(s?.role ?? 'ADMIN');
+    return allowed[0] ?? 'resumen';
+  });
   const [filters, setFilters] = useState<FilterState>(() => {
     const s = getSession();
     if (!s) return DEFAULT_FILTERS;
@@ -76,6 +83,14 @@ export default function DashboardPage() {
   };
 
   const scope = session ? getRoleScope(session) : null;
+  // Pestañas que este rol puede ver (las demás se ocultan de la barra).
+  const visibleTabs = useMemo(
+    () => (session ? TABS.filter((t) => canViewTab(session.role, t.key)) : TABS),
+    [session]
+  );
+  // Defensa en profundidad: si por algún motivo la pestaña activa no está
+  // permitida para el rol, no renderizamos su contenido.
+  const currentTabAllowed = session ? canViewTab(session.role, tab) : false;
 
   const filteredAgg = useMemo(() => (dataset ? filterAgg(dataset.ag, filters) : []), [dataset, filters]);
   const groups = useMemo(
@@ -107,9 +122,9 @@ export default function DashboardPage() {
 
       <FiltersBar dataset={dataset} filters={filters} onChange={setFilters} scope={scope} />
 
-      <Tabs tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs tabs={visibleTabs} active={tab} onChange={(k) => setTab(k as DashboardTab)} />
 
-      {tab === 'resumen' && (
+      {currentTabAllowed && tab === 'resumen' && (
         <div className="space-y-5">
           <KpiGrid groups={groups} />
 
@@ -134,21 +149,21 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {tab === 'escuelas' && (
+      {currentTabAllowed && tab === 'escuelas' && (
         <div className="bg-white border border-slate-200 rounded-xl p-4">
           <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Scorecard por escuela</h3>
           <SchoolScorecard rows={scorecardRows} />
         </div>
       )}
 
-      {tab === 'asignaturas' && (
+      {currentTabAllowed && tab === 'asignaturas' && (
         <div className="bg-white border border-slate-200 rounded-xl p-4">
           <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Aprobación por asignatura y periodo</h3>
           <SubjectHeatmap dataset={dataset} filters={filters} />
         </div>
       )}
 
-      {tab === 'docentes' && (
+      {currentTabAllowed && tab === 'docentes' && (
         <div className="bg-white border border-slate-200 rounded-xl p-4">
           <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Buscador de docentes</h3>
           <TeacherSearch dataset={dataset} filters={filters} />

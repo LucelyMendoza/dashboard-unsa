@@ -61,5 +61,6 @@ export const ROLE_LABELS: Record<UserSession['role'], string> = {
   ADMIN: 'Administrador/a',
   VICERRECTOR: 'Vicerrectorado Académico',
   DECANO: 'Decanato',
+  AUTORIDAD: 'Autoridad',
   DIRECTOR: 'Dirección de Escuela',
 };
