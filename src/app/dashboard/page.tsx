@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DashboardDataset, UserSession } from '@/types/dashboard';
 import { parseExcelToDataset, ExcelParseError } from '@/lib/excelParser';
+import { signOut } from 'firebase/auth';
+import { firebaseAuth } from '@/lib/firebase';
 import { getSession, clearSession, getRoleScope } from '@/lib/session';
 import { getAllowedTabs, canViewTab } from '@/lib/roles';
 import type { DashboardTab } from '@/types/dashboard';
@@ -65,8 +67,18 @@ export default function DashboardPage() {
       });
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // 1. Borra la sesión local (localStorage).
     clearSession();
+    // 2. Cierra sesión en Firebase/Google de verdad, para que el listener
+    //    onAuthStateChanged del login NO recreé la sesión automáticamente
+    //    y se vuelva a pedir acceso con Google.
+    try {
+      await signOut(firebaseAuth);
+    } catch {
+      // Si falla el signOut de Firebase, igualmente borramos la sesión local
+      // y mandamos al login; el usuario podrá reintentar.
+    }
     router.replace('/login');
   };
 
