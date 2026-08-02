@@ -18,6 +18,13 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   // Rol AUTORIDAD: ve Resumen + Escuelas.
   // Reemplaza este correo por el de la autoridad correspondiente.
   'autoridad@unsa.edu.pe': { name: 'Autoridad', role: 'AUTORIDAD' },
+  // Director de Escuela: fijado a su facultad y escuela (sólo ve Asignaturas + Docentes).
+  'jleonq@unsa.edu.pe': {
+    name: 'Director de Escuela',
+    role: 'DIRECTOR',
+    facultad: 'CIENCIAS BIOLÓGICAS',
+    escuela: 'BIOLOGÍA',
+  },
 };
 
 export function getUserByEmail(email: string): UserSession | null {

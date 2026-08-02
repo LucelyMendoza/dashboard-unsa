@@ -23,4 +23,10 @@ export const ROLE_MAP = {
     label: 'Decano',
   },
   'autoridad@unsa.edu.pe': { role: 'autoridad', facultad: null, escuela: null, label: 'Autoridad' },
+  'jleonq@unsa.edu.pe': {
+    role: 'director',
+    facultad: 'CIENCIAS BIOLÓGICAS',
+    escuela: 'BIOLOGÍA',
+    label: 'Director de Escuela',
+  },
 } as const;
