@@ -30,7 +30,7 @@ export interface RoleScope {
 
 /**
  * Resuelve qué puede ver y filtrar cada rol.
- * - ADMIN / VICERRECTOR: acceso total, filtros libres.
+ * - ADMIN / VICERRECTOR / AUTORIDAD: acceso total, filtros libres (ven el resumen general de TODO).
  * - DECANO: fijado a su facultad; puede navegar entre las escuelas de esa facultad.
  * - DIRECTOR: fijado a su facultad Y su escuela (no puede salir de ahí).
  */
@@ -50,6 +50,7 @@ export function getRoleScope(session: UserSession): RoleScope {
         lockFacultad: true,
         lockEscuela: false,
       };
+    case 'AUTORIDAD':
     case 'VICERRECTOR':
     case 'ADMIN':
     default:

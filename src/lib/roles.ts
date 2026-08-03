@@ -48,17 +48,17 @@ export function isAdminEmail(email: string): boolean {
  *
  *   Resumen | Escuelas | Asignaturas | Docentes
  *   ------- | -------- | ----------- | --------
- *   ADMIN      ✅        ✅            ✅        ✅
- *   DECANO     ❌        ✅            ❌        ❌
- *   AUTORIDAD  ✅        ✅            ❌        ❌
- *   DIRECTOR   ❌        ❌            ✅        ✅
- *   VICERRECTOR ✅       ✅            ✅        ✅
+ *   ADMIN       ✅        ✅            ✅        ✅   (todo)
+ *   VICERRECTOR ✅        ✅            ✅        ✅   (todo)
+ *   DECANO      ✅        ✅            ❌        ❌   (de su facultad)
+ *   AUTORIDAD   ✅        ❌            ❌        ❌   (resumen general de todo)
+ *   DIRECTOR    ❌        ❌            ✅        ✅   (de su escuela)
  */
 export const TAB_PERMISSIONS: Record<UserRole, DashboardTab[]> = {
   ADMIN: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
   VICERRECTOR: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
-  DECANO: ['escuelas'],
-  AUTORIDAD: ['resumen', 'escuelas'],
+  DECANO: ['resumen', 'escuelas'],
+  AUTORIDAD: ['resumen'],
   DIRECTOR: ['asignaturas', 'docentes'],
 };
 
