@@ -1,11 +1,6 @@
-import { UserSession, UserRole, DashboardTab } from '@/types/dashboard';
 
-export const ADMIN_EMAILS = [
-  'lmendoza@unsa.edu.pe',
-  'wvaldez@unsa.edu.pe',
-  'esiug@unsa.edu.pe',
-  'jleonq@unsa.edu.pe',
-];
+
+const ADMIN_EMAILS = ['lmendoza@unsa.edu.pe'];
 
 /**
  * Registro de correos habilitados y su rol / alcance.
@@ -13,12 +8,8 @@ export const ADMIN_EMAILS = [
  * (cualquier correo de Google se autentica, pero se le deja entrar sólo si
  * aparece en este mapa con un rol asignado).
  */
-export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
-  // Administradores: ven todas las vistas de TODO el sistema.
+const ROLE_MAP = {
   'lmendoza@unsa.edu.pe': { name: 'Administrador', role: 'ADMIN' },
-  'wvaldez@unsa.edu.pe':  { name: 'Administrador', role: 'ADMIN' },
-  'esiug@unsa.edu.pe':    { name: 'Administrador', role: 'ADMIN' },
-  'jleonq@unsa.edu.pe':   { name: 'Administrador', role: 'ADMIN' },
 
   // Rol AUTORIDAD: ve sólo el Resumen general de TODO (filtros libres).
   'vrac@unsa.edu.pe': { name: 'Autoridad', role: 'AUTORIDAD' },
@@ -50,6 +41,10 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   // Director de Escuela: fijado a su facultad y escuela (sólo ve Asignaturas + Docentes).
   // Los valores de `facultad` y `escuela` deben coincidir EXACTAMENTE con los del
   // dataset (public/data/initialData.json), incluidos acentos y caracteres especiales.
+  // NOTA: la escuela EDUCACIÓN (Ciencias de la Educación) aún no tiene director
+  // asignado porque su correo era el mismo del decano (educacion@unsa.edu.pe).
+  // Cuando tengas el correo del director, agrégalo aquí con facultad:
+  // 'CIENCIAS DE LA EDUCACIÓN' y escuela: 'EDUCACIÓN'.
   'administracion@unsa.edu.pe':      { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'ADMINISTRACIÓN', escuela: 'ADMINISTRACIÓN' },
   'alimentaria@unsa.edu.pe':         { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'INGENIERÍA DE PROCESOS', escuela: 'INGENIERÍA DE INDUSTRIAS ALIMENTARIAS' },
   'ambiental@unsa.edu.pe':           { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'INGENIERÍA DE PROCESOS', escuela: 'INGENIERÍA AMBIENTAL' },
@@ -59,7 +54,7 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   'biologia@unsa.edu.pe':            { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS BIOLÓGICAS', escuela: 'BIOLOGÍA' },
   'ccomunicacion@unsa.edu.pe':       { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'PSICOLOGÍA, RR.II. Y CS. DE LA COMUNICACIÓN', escuela: 'CIENCIAS DE LA COMUNICACIÓN' },
   'civil@unsa.edu.pe':               { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'INGENIERÍA CIVIL', escuela: 'INGENIERÍA CIVIL' },
-  'contabilidad@unsa.edu.pe':        { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS CONTABLES \u00a0Y FINANCIERAS', escuela: 'CONTABILIDAD' },
+  'contabilidad@unsa.edu.pe':        { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS CONTABLES\u00a0Y FINANCIERAS', escuela: 'CONTABILIDAD' },
   'dadp@unsa.edu.pe':                { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'DERECHO', escuela: 'DERECHO' },
   'dadpub@unsa.edu.pe':              { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'DERECHO', escuela: 'DERECHO' },
   'dae@unsa.edu.pe':                 { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'ECONOMÍA', escuela: 'ECONOMÍA' },
@@ -75,7 +70,7 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   'fagronomia_secacad@unsa.edu.pe':  { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'AGRONOMÍA', escuela: 'INGENIERÍA AGRONÓMICA' },
   'fau_epa@unsa.edu.pe':             { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'ARQUITECTURA Y URBANISMO', escuela: 'ARQUITECTURA' },
   'filosofia@unsa.edu.pe':           { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'FILOSOFÍA Y HUMANIDADES', escuela: 'FILOSOFÍA' },
-  'finanzas@unsa.edu.pe':            { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS CONTABLES \u00a0Y FINANCIERAS', escuela: 'FINANZAS' },
+  'finanzas@unsa.edu.pe':            { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS CONTABLES\u00a0Y FINANCIERAS', escuela: 'FINANZAS' },
   'geofisica@unsa.edu.pe':           { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'INGENIERÍA GEOLÓGICA, GEOFÍSICA Y MINAS', escuela: 'INGENIERÍA GEOFÍSICA' },
   'geologia@unsa.edu.pe':            { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'INGENIERÍA GEOLÓGICA, GEOFÍSICA Y MINAS', escuela: 'INGENIERÍA GEOLÓGICA' },
   'gestion@unsa.edu.pe':             { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'ADMINISTRACIÓN', escuela: 'GESTIÓN' },
@@ -99,7 +94,7 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   'turismo@unsa.edu.pe':             { name: 'Director de Escuela', role: 'DIRECTOR', facultad: 'CIENCIAS HISTÓRICO SOCIALES', escuela: 'TURISMO Y HOTELERÍA' },
 };
 
-export function getUserByEmail(email: string): UserSession | null {
+function getUserByEmail(email) {
   const normalizedEmail = email.toLowerCase().trim();
   const role = ROLE_MAP[normalizedEmail];
   if (!role) return null;
@@ -109,11 +104,11 @@ export function getUserByEmail(email: string): UserSession | null {
   };
 }
 
-export function isAdminEmail(email: string): boolean {
+function isAdminEmail(email) {
   return ADMIN_EMAILS.includes(email.toLowerCase().trim());
 }
 
-export const TAB_PERMISSIONS: Record<UserRole, DashboardTab[]> = {
+const TAB_PERMISSIONS = {
   ADMIN: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
   VICERRECTOR: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
   DECANO: ['resumen', 'escuelas'],
@@ -122,13 +117,13 @@ export const TAB_PERMISSIONS: Record<UserRole, DashboardTab[]> = {
 };
 
 /** ¿Este rol puede ver la pestaña indicada? */
-export function canViewTab(role: UserRole, tab: DashboardTab): boolean {
+function canViewTab(role, tab) {
   return TAB_PERMISSIONS[role]?.includes(tab) ?? false;
 }
 
 /** Devuelve las pestañas permitidas para el rol, en el orden canónico del tablero. */
-export function getAllowedTabs(role: UserRole): DashboardTab[] {
-  const canonical: DashboardTab[] = ['resumen', 'escuelas', 'asignaturas', 'docentes'];
-  const allowed = TAB_PERMISSIONS[role] ?? [];
+function getAllowedTabs(role) {
+  const canonical = ['resumen', 'escuelas', 'asignaturas', 'docentes'];
+  const allowed = TAB_PERMISSIONS[role] || [];
   return canonical.filter((t) => allowed.includes(t));
 }
