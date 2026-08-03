@@ -13,7 +13,7 @@ export const ROLE_MAP: Record<string, Omit<UserSession, 'email'>> = {
   'esiug@unsa.edu.pe': {
     name: 'Decano',
     role: 'DECANO',
-    facultad: 'FACULTAD DE CIENCIAS BIOMÉDICAS',
+    facultad: 'MEDICINA',
   },
   // Rol AUTORIDAD: ve Resumen + Escuelas.
   // Reemplaza este correo por el de la autoridad correspondiente.

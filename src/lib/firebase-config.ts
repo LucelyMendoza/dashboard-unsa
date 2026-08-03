@@ -18,7 +18,7 @@ export const ROLE_MAP = {
   'lmendoza@unsa.edu.pe': { role: 'admin', facultad: null, escuela: null, label: 'Administrador' },
   'esiug@unsa.edu.pe': {
     role: 'decano',
-    facultad: 'FACULTAD DE CIENCIAS BIOMÉDICAS',
+    facultad: 'MEDICINA',
     escuela: null,
     label: 'Decano',
   },
