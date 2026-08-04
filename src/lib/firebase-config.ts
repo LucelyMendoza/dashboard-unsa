@@ -40,7 +40,6 @@ export const ROLE_MAP = {
   'fips@unsa.edu.pe':       { role: 'decano', facultad: 'INGENIERÍA DE PRODUCCIÓN Y SERVICIOS', escuela: null, label: 'Decano' },
   'facmed@unsa.edu.pe':     { role: 'decano', facultad: 'MEDICINA', escuela: null, label: 'Decano' },
   'fprriicc@unsa.edu.pe':   { role: 'decano', facultad: 'PSICOLOGÍA, RR.II. Y CS. DE LA COMUNICACIÓN', escuela: null, label: 'Decano' },
-  'jleonq@unsa.edu.pe': { role: 'director', facultad: 'CIENCIAS BIOLÓGICAS', escuela: 'BIOLOGÍA', label: 'Director de Escuela' },
   'administracion@unsa.edu.pe':      { role: 'director', facultad: 'ADMINISTRACIÓN', escuela: 'ADMINISTRACIÓN', label: 'Director de Escuela' },
   'alimentaria@unsa.edu.pe':         { role: 'director', facultad: 'INGENIERÍA DE PROCESOS', escuela: 'INGENIERÍA DE INDUSTRIAS ALIMENTARIAS', label: 'Director de Escuela' },
   'ambiental@unsa.edu.pe':           { role: 'director', facultad: 'INGENIERÍA DE PROCESOS', escuela: 'INGENIERÍA AMBIENTAL', label: 'Director de Escuela' },
