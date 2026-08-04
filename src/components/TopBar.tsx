@@ -47,18 +47,24 @@ export default function TopBar({
           mobileOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >
-        <header className="relative h-full overflow-y-auto rounded-r-2xl border-r border-t border-b shadow-[0_8px_24px_rgba(90,22,32,0.12)]" style={{ borderColor: 'var(--granate-oscuro)', backgroundColor: 'var(--papel)' }}>
-          <button
-            type="button"
-            onClick={onToggleMobile}
-            className="absolute top-3 right-3 flex items-center justify-center rounded-full w-10 h-10 text-white shadow-md"
-            style={{ backgroundColor: 'var(--granate)' }}
-            aria-label="Cerrar menú lateral"
-          >
-            <X size={18} />
-          </button>
+        <header className="relative h-full rounded-r-2xl border-r border-t border-b shadow-[0_8px_24px_rgba(90,22,32,0.12)] flex flex-col overflow-hidden" style={{ borderColor: 'var(--granate-oscuro)', backgroundColor: 'var(--papel)' }}>
+          <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 border-b" style={{ backgroundColor: 'var(--granate)', borderColor: 'var(--dorado)', color: '#ffffff' }}>
+            <div className="text-[10px] uppercase tracking-[0.16em]" style={{ color: 'var(--dorado)' }}>
+              Menú institucional
+            </div>
+            <button
+              type="button"
+              onClick={onToggleMobile}
+              className="flex items-center justify-center rounded-full w-10 h-10 text-white shadow-md"
+              style={{ backgroundColor: 'var(--granate-oscuro)' }}
+              aria-label="Cerrar menú lateral"
+            >
+              <X size={18} />
+            </button>
+          </div>
 
-          <div className="px-4 sm:px-6 py-4 sm:py-5 border-b-4" style={{ backgroundColor: 'var(--granate)', borderColor: 'var(--dorado)', color: '#ffffff' }}>
+          <div className="flex-1 overflow-y-auto">
+            <div className="px-4 sm:px-6 py-4 sm:py-5 border-b-4" style={{ backgroundColor: 'var(--granate)', borderColor: 'var(--dorado)', color: '#ffffff' }}>
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl">
                 <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em] mb-1" style={{ color: 'var(--dorado)' }}>
@@ -105,6 +111,7 @@ export default function TopBar({
                 Salir
               </button>
             </div>
+          </div>
           </div>
         </header>
       </aside>

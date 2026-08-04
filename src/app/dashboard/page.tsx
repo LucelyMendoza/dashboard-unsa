@@ -174,8 +174,8 @@ export default function DashboardPage() {
                   onChange={(e) => setFilters({ ...filters, indicador: e.target.value as typeof filters.indicador })}
                   className="text-xs border border-slate-200 rounded-lg px-2.5 py-2 bg-slate-50"
                 >
-                  <option value="apr">Aprobación</option>
-                  <option value="des">Desaprobación</option>
+                  <option value="apr">Aprobados</option>
+                  <option value="des">Desaprobados</option>
                   <option value="ret">Retiro</option>
                   <option value="abn">Abandono</option>
                   <option value="all">Todas</option>
@@ -186,7 +186,7 @@ export default function DashboardPage() {
                 <div className="mt-4 border-t border-slate-100 pt-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-xs font-bold text-[var(--ink)]">Desglose en barras</h4>
-                    <span className="text-[11px] text-slate-400">Aprobación, desaprobación, retiro y abandono</span>
+                    <span className="text-[11px] text-slate-400">Aprobados, desaprobados, retiro y abandono</span>
                   </div>
                   <GroupedBarChart groups={groups} />
                 </div>
