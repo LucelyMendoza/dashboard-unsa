@@ -71,9 +71,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[var(--crema)]">
-      <div className="flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
-        <div className="w-full max-w-md -translate-y-2 sm:-translate-y-3">
-          <div className="text-center mb-5 sm:mb-8">
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-6 sm:mb-8">
             <div className="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4 shadow-sm border-2" style={{ backgroundColor: 'var(--granate)', borderColor: 'var(--dorado)' }}>
               <GraduationCap className="text-white" size={24} />
             </div>
