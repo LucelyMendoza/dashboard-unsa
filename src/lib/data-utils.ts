@@ -4,7 +4,7 @@ import { AggregatedRow, DashboardDataset, ScorecardRow, SubjectRow, TeacherRow }
 
 export const rate = (n: number, d: number) => (d ? +((n / d) * 100).toFixed(2) : 0);
 export const fmt = (n: number) => n.toLocaleString('es-PE');
-export const pct = (n: number) => n.toFixed(2) + '%';
+export const pct = (n?: number | null) => `${Number.isFinite(n as number) ? (n as number).toFixed(2) : '0.00'}%`;
 export const dlt = (a: number, b: number) => {
   const d = a - b;
   return (d >= 0 ? '+' : '') + d.toFixed(2) + 'pp';
@@ -31,7 +31,7 @@ export interface FilterState {
   anio: string; // 'ALL' o año como string
   periodo: string;
   agrupacion: 'sem' | 'anio';
-  indicador: 'apr' | 'des' | 'nc' | 'all';
+  indicador: 'apr' | 'des' | 'ret' | 'abn' | 'all';
 }
 
 export const DEFAULT_FILTERS: FilterState = {

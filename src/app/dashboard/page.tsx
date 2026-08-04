@@ -10,13 +10,14 @@ import { getSession, clearSession, getRoleScope } from '@/lib/session';
 import { getAllowedTabs, canViewTab } from '@/lib/roles';
 import type { DashboardTab } from '@/types/dashboard';
 import { DEFAULT_FILTERS, FilterState, filterAgg, filterScorecard, groupBy } from '@/lib/data-utils';
+import { recomputeDerived } from '@/lib/recompute';
 import AdminUploadModal from '@/components/AdminUploadModal';
 import TopBar from '@/components/TopBar';
 import FiltersBar from '@/components/FiltersBar';
 import Tabs, { TabDef } from '@/components/Tabs';
 import KpiGrid from '@/components/KpiGrid';
 import TrendChart from '@/components/TrendChart';
-import StackedChart from '@/components/StackedChart';
+import GroupedBarChart from '@/components/GroupedBarChart';
 import IndicatorCards from '@/components/IndicatorCards';
 import SchoolScorecard from '@/components/SchoolScorecard';
 import SubjectHeatmap from '@/components/SubjectHeatmap';
@@ -60,7 +61,7 @@ export default function DashboardPage() {
         if (!res.ok) throw new Error('No se encontró public/data/initialData.json');
         return res.json();
       })
-      .then((data: DashboardDataset) => setDataset(data))
+      .then((data: DashboardDataset) => setDataset(recomputeDerived(data)))
       .catch((err) => {
         console.error(err);
         setErrorMsg('Falta el archivo de datos: verifica que public/data/initialData.json exista y sea un JSON válido.');
@@ -140,8 +141,8 @@ export default function DashboardPage() {
         <div className="space-y-5">
           <KpiGrid groups={groups} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="bg-white border border-slate-200 rounded-xl p-4">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 w-full">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-bold text-[var(--ink)]">Evolución de Tasas</h3>
                 <span className="text-[11px] text-slate-400">
@@ -149,11 +150,30 @@ export default function DashboardPage() {
                   {filters.escuela !== 'ALL' ? ` / ${filters.escuela}` : ''}
                 </span>
               </div>
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Indicador</label>
+                <select
+                  value={filters.indicador}
+                  onChange={(e) => setFilters({ ...filters, indicador: e.target.value as typeof filters.indicador })}
+                  className="text-xs border border-slate-200 rounded-lg px-2.5 py-2 bg-slate-50"
+                >
+                  <option value="apr">Aprobación</option>
+                  <option value="des">Desaprobación</option>
+                  <option value="ret">Retiro</option>
+                  <option value="abn">Abandono</option>
+                  <option value="all">Todas</option>
+                </select>
+              </div>
               <TrendChart groups={groups} indicador={filters.indicador} />
-            </div>
-            <div className="bg-white border border-slate-200 rounded-xl p-4">
-              <h3 className="text-sm font-bold text-[var(--ink)] mb-2">Composición de resultados</h3>
-              <StackedChart groups={groups} />
+              {filters.indicador === 'all' && (
+                <div className="mt-4 border-t border-slate-100 pt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-xs font-bold text-[var(--ink)]">Desglose en barras</h4>
+                    <span className="text-[11px] text-slate-400">Aprobación, desaprobación, retiro y abandono</span>
+                  </div>
+                  <GroupedBarChart groups={groups} />
+                </div>
+              )}
             </div>
           </div>
 

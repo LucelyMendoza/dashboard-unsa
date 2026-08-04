@@ -37,6 +37,9 @@ En el dashboard, botón **"Subir Excel / Actualizar"**. El Excel debe tener las
 columnas: `DOCENTE, FACULTAD, ESCUELA, PERIODO, ASIGNATURA, MATRICULADOS,
 APROBADOS, DESAPROBADOS, RETIRADOS, NO_CULMINADOS, NOTA_PROMEDIO`.
 
+En el tablero, `RETIRADOS` y `NO_CULMINADOS` se muestran por separado como
+`Retiro` y `Abandono`, sin juntarlos bajo una sola etiqueta de “no culminación”.
+
 La carga solo actualiza la sesión actual (no hay backend que escriba en disco).
 Tras cargar, el modal ofrece **descargar el `initialData.json` actualizado** —
 reemplaza el archivo en `public/data/` y vuelve a desplegar para publicarlo

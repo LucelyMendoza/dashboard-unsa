@@ -31,6 +31,8 @@ export interface ScorecardRow {
   tm: number;
   ta: number;
   td: number;
+  tr: number;
+  tb: number;
   tn: number;
   sl: number;
   cv: number;

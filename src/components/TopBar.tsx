@@ -15,7 +15,7 @@ export default function TopBar({
   return (
     <header className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-200 pb-4">
       <div>
-        <h1 className="font-serif text-lg sm:text-xl font-bold text-[var(--ink)] leading-tight">
+        <h1 className="font-serif text-lg sm:text-xl font-bold text-[var(--accent)] leading-tight">
           TABLERO DE CONTROL - PREGRADO
         </h1>
         <p className="text-xs text-slate-500 mt-1">

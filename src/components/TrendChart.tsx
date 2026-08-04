@@ -11,7 +11,7 @@ interface Props {
   indicador: FilterState['indicador'];
 }
 
-const COLORS = { apr: '#2563eb', des: '#d97706', nc: '#475569', ret: '#7c3aed', abn: '#dc2626' };
+const COLORS = { apr: '#2563eb', des: '#d97706', ret: '#7A02FA', abn: '#FA0202' };
 
 export default function TrendChart({ groups, indicador }: Props) {
   const labels = groups.map((g) => g.k);
@@ -21,15 +21,25 @@ export default function TrendChart({ groups, indicador }: Props) {
     datasets = [
       { label: 'Aprobación', data: groups.map((g) => rate(g.a, g.m)), borderColor: COLORS.apr, backgroundColor: COLORS.apr + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
       { label: 'Desaprobación', data: groups.map((g) => rate(g.d, g.m)), borderColor: COLORS.des, backgroundColor: COLORS.des + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
-      { label: 'No Culm.', data: groups.map((g) => rate(g.r + g.b, g.m)), borderColor: COLORS.nc, backgroundColor: COLORS.nc + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
+      { label: 'Retiro', data: groups.map((g) => rate(g.r, g.m)), borderColor: COLORS.ret, backgroundColor: COLORS.ret + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
+      { label: 'Abandono', data: groups.map((g) => rate(g.b, g.m)), borderColor: COLORS.abn, backgroundColor: COLORS.abn + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
     ];
-  } else if (indicador === 'nc') {
-    datasets = [{ label: 'No Culminación', data: groups.map((g) => rate(g.r + g.b, g.m)), borderColor: COLORS.nc, backgroundColor: COLORS.nc + '22', fill: true, tension: 0.3, pointRadius: 4, borderWidth: 2 }];
+  } else if (indicador === 'ret') {
+    datasets = [{ label: 'Retiro', data: groups.map((g) => rate(g.r, g.m)), borderColor: COLORS.ret, backgroundColor: COLORS.ret + '22', fill: true, tension: 0.3, pointRadius: 4, borderWidth: 2 }];
+  } else if (indicador === 'abn') {
+    datasets = [{ label: 'Abandono', data: groups.map((g) => rate(g.b, g.m)), borderColor: COLORS.abn, backgroundColor: COLORS.abn + '22', fill: true, tension: 0.3, pointRadius: 4, borderWidth: 2 }];
   } else {
-    const fn = indicador === 'apr' ? (g: GroupedTotals) => rate(g.a, g.m) : (g: GroupedTotals) => rate(g.d, g.m);
+    const fn =
+      indicador === 'apr'
+        ? (g: GroupedTotals) => rate(g.a, g.m)
+        : indicador === 'des'
+        ? (g: GroupedTotals) => rate(g.d, g.m)
+        : indicador === 'ret'
+        ? (g: GroupedTotals) => rate(g.r, g.m)
+        : (g: GroupedTotals) => rate(g.b, g.m);
     datasets = [
       {
-        label: indicador === 'apr' ? 'Aprobación' : 'Desaprobación',
+        label: indicador === 'apr' ? 'Aprobación' : indicador === 'des' ? 'Desaprobación' : indicador === 'ret' ? 'Retiro' : 'Abandono',
         data: groups.map(fn),
         borderColor: COLORS[indicador],
         backgroundColor: COLORS[indicador] + '22',

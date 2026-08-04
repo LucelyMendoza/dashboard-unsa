@@ -86,6 +86,8 @@ export function recomputeDerived(d: DashboardDataset): DashboardDataset {
       tm,
       ta: rate(ta_, tm),
       td: rate(td_, tm),
+      tr: rate(tr_, tm),
+      tb: rate(tb_, tm),
       tn: rate(tr_ + tb_, tm),
       sl,
       cv,

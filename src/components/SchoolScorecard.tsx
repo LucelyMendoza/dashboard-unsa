@@ -22,7 +22,8 @@ export default function SchoolScorecard({ rows }: { rows: ScorecardRow[] }) {
             <th className="text-right font-semibold px-2 py-2">Matr.</th>
             <th className="text-right font-semibold px-2 py-2">Aprob.</th>
             <th className="text-right font-semibold px-2 py-2">Desap.</th>
-            <th className="text-right font-semibold px-2 py-2">No Culm.</th>
+            <th className="text-right font-semibold px-2 py-2">Retiro</th>
+            <th className="text-right font-semibold px-2 py-2">Abandono</th>
             <th className="text-right font-semibold px-2 py-2">Tendencia</th>
             <th className="text-right font-semibold px-2 py-2">CV</th>
             <th className="text-right font-semibold px-2 py-2">Brecha</th>
@@ -46,7 +47,8 @@ export default function SchoolScorecard({ rows }: { rows: ScorecardRow[] }) {
                   {pct(c.ta)}
                 </td>
                 <td className="text-right px-2 py-1.5">{pct(c.td)}</td>
-                <td className="text-right px-2 py-1.5">{pct(c.tn)}</td>
+                <td className="text-right px-2 py-1.5">{pct(c.tr)}</td>
+                <td className="text-right px-2 py-1.5">{pct(c.tb)}</td>
                 <td className={`text-right px-2 py-1.5 ${tr.cls}`}>{tr.text}</td>
                 <td className={`text-right px-2 py-1.5 ${c.cv > 5 ? 'text-red-600 font-semibold' : ''}`}>{c.cv.toFixed(1)}%</td>
                 <td className={`text-right px-2 py-1.5 ${c.br > 20 ? 'text-red-600 font-semibold' : ''}`}>{c.br.toFixed(1)}pp</td>

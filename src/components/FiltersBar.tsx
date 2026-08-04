@@ -103,21 +103,6 @@ export default function FiltersBar({ dataset, filters, onChange, scope }: Props)
             ))}
           </div>
         </div>
-
-        <div>
-          <label className={labelCls}>Indicador</label>
-          <select
-            value={filters.indicador}
-            onChange={(e) => onChange({ ...filters, indicador: e.target.value as FilterState['indicador'] })}
-            className={selectCls}
-          >
-            <option value="apr">Aprobación</option>
-            <option value="des">Desaprobación</option>
-            <option value="nc">Retiro</option>
-            <option value="nc">Abandono</option>
-            <option value="all">Todos</option>
-          </select>
-        </div>
       </div>
     </section>
   );
