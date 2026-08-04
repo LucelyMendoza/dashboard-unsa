@@ -71,9 +71,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[var(--crema)]">
-      <div className="flex items-center justify-center px-4 py-8 sm:py-16">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-6 sm:mb-8">
+      <div className="flex min-h-screen items-center justify-center px-4 py-10 sm:py-16">
+        <div className="w-full max-w-md -translate-y-2 sm:-translate-y-3">
+          <div className="text-center mb-5 sm:mb-8">
             <div className="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4 shadow-sm border-2" style={{ backgroundColor: 'var(--granate)', borderColor: 'var(--dorado)' }}>
               <GraduationCap className="text-white" size={24} />
             </div>
@@ -83,7 +83,7 @@ export default function LoginPage() {
 
           <div className="bg-[var(--papel)] border rounded-2xl shadow-[0_8px_24px_rgba(90,22,32,0.08)] p-5 sm:p-7 space-y-4" style={{ borderColor: 'var(--linea)' }}>
             <div className="h-2 rounded-full" style={{ backgroundColor: 'var(--granate)' }} />
-            <p className="text-sm text-[var(--texto-sec)] text-center">
+            <p className="text-sm sm:text-[15px] text-[var(--texto-sec)] text-center max-w-sm mx-auto leading-relaxed">
               Ingresa con tu cuenta institucional <span className="font-semibold" style={{ color: 'var(--granate)' }}>@unsa.edu.pe</span> de Google.
             </p>
 
