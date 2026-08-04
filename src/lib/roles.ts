@@ -117,7 +117,7 @@ export const TAB_PERMISSIONS: Record<UserRole, DashboardTab[]> = {
   ADMIN: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
   VICERRECTOR: ['resumen', 'escuelas', 'asignaturas', 'docentes'],
   DECANO: ['resumen', 'escuelas'],
-  AUTORIDAD: ['resumen'],
+  AUTORIDAD: ['resumen', 'escuelas'],
   DIRECTOR: ['asignaturas', 'docentes'],
 };
 

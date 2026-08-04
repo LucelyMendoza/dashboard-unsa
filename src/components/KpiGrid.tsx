@@ -22,8 +22,8 @@ export default function KpiGrid({ groups }: Props) {
   const dA = last && prev ? dlt(rate(last.a, last.m), rate(prev.a, prev.m)) : '—';
 
   const cards = [
-    { v: pct(tA), l: 'Aprobación', s: `${fmt(tot.a)} aprobados · ${dA}`, color: 'var(--apr)' },
-    { v: pct(tD), l: 'Desaprobación', s: `${fmt(tot.d)} desaprobados`, color: 'var(--des)' },
+    { v: pct(tA), l: 'Aprobados', s: `${fmt(tot.a)} aprobados · ${dA}`, color: 'var(--apr)' },
+    { v: pct(tD), l: 'Desaprobados', s: `${fmt(tot.d)} desaprobados`, color: 'var(--des)' },
     { v: pct(tR), l: 'Retiro', s: `${fmt(tot.r)} retiros`, color: 'var(--ret)' },
     { v: pct(tB), l: 'Abandono', s: `${fmt(tot.b)} abandonos`, color: 'var(--abn)' },
     { v: fmt(tot.m), l: 'Matriculados por asignatura', s: `${groups.length} periodos`, color: 'var(--ink)' },

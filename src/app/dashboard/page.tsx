@@ -48,6 +48,7 @@ export default function DashboardPage() {
     const scope = getRoleScope(s);
     return { ...DEFAULT_FILTERS, facultad: scope.facultad, escuela: scope.escuela };
   });
+  const [subjectMetric, setSubjectMetric] = useState<'apr' | 'des' | 'ret' | 'abn'>('apr');
 
   // 1. Verificar sesión (guard). Sin sesión → login. Es navegación, no setState.
   useEffect(() => {
@@ -190,8 +191,23 @@ export default function DashboardPage() {
 
       {currentTabAllowed && tab === 'asignaturas' && (
         <div className="bg-white border border-slate-200 rounded-xl p-4">
-          <h3 className="text-sm font-bold text-[var(--ink)] mb-3">Aprobación por asignatura y periodo</h3>
-          <SubjectHeatmap dataset={dataset} filters={filters} />
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <h3 className="text-sm font-bold text-[var(--ink)]">Resultados por asignatura y periodo</h3>
+            <div className="flex items-center gap-2">
+              <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Estado</label>
+              <select
+                value={subjectMetric}
+                onChange={(e) => setSubjectMetric(e.target.value as typeof subjectMetric)}
+                className="text-xs border border-slate-200 rounded-lg px-2.5 py-2 bg-slate-50"
+              >
+                <option value="apr">Aprobados</option>
+                <option value="des">Desaprobados</option>
+                <option value="ret">Retiro</option>
+                <option value="abn">Abandono</option>
+              </select>
+            </div>
+          </div>
+          <SubjectHeatmap dataset={dataset} filters={filters} metric={subjectMetric} />
         </div>
       )}
 

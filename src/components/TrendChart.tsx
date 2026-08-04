@@ -19,8 +19,8 @@ export default function TrendChart({ groups, indicador }: Props) {
   let datasets;
   if (indicador === 'all') {
     datasets = [
-      { label: 'Aprobación', data: groups.map((g) => rate(g.a, g.m)), borderColor: COLORS.apr, backgroundColor: COLORS.apr + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
-      { label: 'Desaprobación', data: groups.map((g) => rate(g.d, g.m)), borderColor: COLORS.des, backgroundColor: COLORS.des + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
+      { label: 'Aprobados', data: groups.map((g) => rate(g.a, g.m)), borderColor: COLORS.apr, backgroundColor: COLORS.apr + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
+      { label: 'Desaprobados', data: groups.map((g) => rate(g.d, g.m)), borderColor: COLORS.des, backgroundColor: COLORS.des + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
       { label: 'Retiro', data: groups.map((g) => rate(g.r, g.m)), borderColor: COLORS.ret, backgroundColor: COLORS.ret + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
       { label: 'Abandono', data: groups.map((g) => rate(g.b, g.m)), borderColor: COLORS.abn, backgroundColor: COLORS.abn + '22', fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 },
     ];
@@ -39,7 +39,7 @@ export default function TrendChart({ groups, indicador }: Props) {
         : (g: GroupedTotals) => rate(g.b, g.m);
     datasets = [
       {
-        label: indicador === 'apr' ? 'Aprobación' : indicador === 'des' ? 'Desaprobación' : indicador === 'ret' ? 'Retiro' : 'Abandono',
+        label: indicador === 'apr' ? 'Aprobados' : indicador === 'des' ? 'Desaprobados' : indicador === 'ret' ? 'Retiro' : 'Abandono',
         data: groups.map(fn),
         borderColor: COLORS[indicador],
         backgroundColor: COLORS[indicador] + '22',

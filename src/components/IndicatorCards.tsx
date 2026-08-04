@@ -3,8 +3,8 @@ import { dlt, fmt, pct, rate } from '@/lib/data-utils';
 import type { GroupedTotals } from '@/lib/data-utils';
 
 const INDICATORS: { k: string; l: string; color: string; desc: string; fn: (g: GroupedTotals) => number }[] = [
-  { k: 'apr', l: 'Aprobación', color: 'var(--apr)', desc: 'Nota ≥ 11', fn: (g) => rate(g.a, g.m) },
-  { k: 'des', l: 'Desaprobación', color: 'var(--des)', desc: 'Nota < 11', fn: (g) => rate(g.d, g.m) },
+  { k: 'apr', l: 'Aprobados', color: 'var(--apr)', desc: 'Nota ≥ 11', fn: (g) => rate(g.a, g.m) },
+  { k: 'des', l: 'Desaprobados', color: 'var(--des)', desc: 'Nota < 11', fn: (g) => rate(g.d, g.m) },
   { k: 'ret', l: 'Retiro', color: 'var(--ret)', desc: 'Retiro formal', fn: (g) => rate(g.r, g.m) },
   { k: 'abn', l: 'Abandono', color: 'var(--abn)', desc: 'Sin retiro formal', fn: (g) => rate(g.b, g.m) },
 ];

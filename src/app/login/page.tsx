@@ -70,36 +70,50 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--paper)] px-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-12 h-12 rounded-full bg-[var(--ink)] flex items-center justify-center mb-4">
-            <GraduationCap className="text-[var(--paper)]" size={22} />
-          </div>
-          <h1 className="font-serif text-2xl font-bold text-[var(--ink)]">Panel de Rendimiento Académico</h1>
-          <p className="text-xs text-slate-500 mt-1 tracking-wide uppercase">UNSA · Dirección de Servicios Académicos</p>
+    <div className="min-h-screen bg-[var(--crema)]">
+      <div className="bg-[var(--granate)] text-white py-5 sm:py-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col gap-1.5">
+          <p className="text-[11px] uppercase tracking-[0.12em] opacity-80">Universidad Nacional de San Agustín de Arequipa</p>
+          <h1 className="font-serif text-2xl sm:text-[28px] font-normal leading-tight">Tablero de Control - Pregrado</h1>
+          <p className="font-serif italic text-sm sm:text-[15px] opacity-90">Rendimiento académico y seguimiento institucional</p>
         </div>
+      </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 space-y-4">
-          <p className="text-sm text-slate-600 text-center">
-            Ingresa con tu cuenta institucional <span className="font-semibold">@unsa.edu.pe</span> de Google.
-          </p>
+      <div className="flex items-center justify-center px-4 py-10 sm:py-16">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="mx-auto w-14 h-14 rounded-full bg-[var(--granate)] flex items-center justify-center mb-4 shadow-sm">
+              <GraduationCap className="text-white" size={24} />
+            </div>
+            <h2 className="font-serif text-2xl font-normal text-[var(--texto)]">Acceso institucional</h2>
+            <p className="text-xs text-[var(--texto-sec)] mt-1 tracking-[0.08em] uppercase">UNSA · Dirección de Servicios Académicos</p>
+          </div>
 
-          {error && <p className="text-xs text-red-600 text-center">{error}</p>}
+          <div className="bg-[var(--papel)] border border-[color:var(--linea)] rounded-2xl shadow-sm p-6 sm:p-7 space-y-4">
+            <p className="text-sm text-[var(--texto-sec)] text-center">
+              Ingresa con tu cuenta institucional <span className="font-semibold text-[var(--granate)]">@unsa.edu.pe</span> de Google.
+            </p>
 
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold py-2.5 rounded-lg border border-slate-300 transition disabled:opacity-60"
-          >
-            <GoogleIcon />
-            {loading ? 'Conectando...' : 'Continuar con Google'}
-          </button>
+            {error && (
+              <div className="rounded-lg border border-[color:var(--rojo-bg)] bg-[var(--rojo-bg)] px-3 py-2">
+                <p className="text-xs text-[var(--rojo)] text-center">{error}</p>
+              </div>
+            )}
 
-          <div className="flex items-center gap-1.5 justify-center text-[var(--ink)]">
-            <LogIn size={14} className="opacity-50" />
-            <span className="text-[11px] text-slate-400">Acceso restringido a usuarios autorizados</span>
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 bg-[var(--granate)] hover:bg-[var(--granate-oscuro)] text-white text-sm font-semibold py-2.5 rounded-lg border border-[color:var(--granate-oscuro)] transition disabled:opacity-60"
+            >
+              <GoogleIcon />
+              {loading ? 'Conectando...' : 'Continuar con Google'}
+            </button>
+
+            <div className="flex items-center gap-1.5 justify-center text-[var(--texto)]">
+              <LogIn size={14} className="opacity-50" />
+              <span className="text-[11px] text-[var(--texto-muted)]">Acceso restringido a usuarios autorizados</span>
+            </div>
           </div>
         </div>
       </div>
