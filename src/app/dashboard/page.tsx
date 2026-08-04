@@ -49,11 +49,16 @@ export default function DashboardPage() {
     return { ...DEFAULT_FILTERS, facultad: scope.facultad, escuela: scope.escuela };
   });
   const [subjectMetric, setSubjectMetric] = useState<'apr' | 'des' | 'ret' | 'abn'>('apr');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // 1. Verificar sesión (guard). Sin sesión → login. Es navegación, no setState.
   useEffect(() => {
     if (!session) router.replace('/login');
   }, [session, router]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [tab, filters.facultad, filters.escuela, filters.anio, filters.periodo, filters.agrupacion, filters.indicador]);
 
   // 2. Cargar el JSON de datos
   useEffect(() => {
@@ -126,15 +131,26 @@ export default function DashboardPage() {
     return <div className="p-8 text-center text-xs text-slate-500 font-medium">Cargando datos del sistema...</div>;
   }
 
+  const mobileFilters = (
+    <div className="space-y-3">
+      <FiltersBar dataset={dataset} filters={filters} onChange={setFilters} scope={scope} />
+    </div>
+  );
+
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-5 w-full">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 pt-16 md:pt-6 space-y-5 w-full">
       <TopBar
         session={session}
         onLogout={handleLogout}
+        mobileOpen={mobileMenuOpen}
+        onToggleMobile={() => setMobileMenuOpen((v) => !v)}
+        mobileFilters={mobileFilters}
         adminAction={session.role === 'ADMIN' ? <AdminUploadModal onDataUpdated={handleExcelUpload} dataset={dataset} /> : undefined}
       />
 
-      <FiltersBar dataset={dataset} filters={filters} onChange={setFilters} scope={scope} />
+      <div className="hidden md:block">
+        <FiltersBar dataset={dataset} filters={filters} onChange={setFilters} scope={scope} />
+      </div>
 
       <Tabs tabs={visibleTabs} active={tab} onChange={(k) => setTab(k as DashboardTab)} />
 

@@ -71,18 +71,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[var(--crema)]">
-      <div style={{ backgroundColor: 'var(--granate)', color: '#fff', borderBottom: '4px solid var(--dorado)' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex flex-col gap-1.5">
-          <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.16em]" style={{ color: 'var(--dorado)' }}>
-            Universidad Nacional de San Agustín de Arequipa
-          </p>
-          <h1 className="font-serif text-[20px] sm:text-[28px] font-normal leading-tight">Tablero de Control - Pregrado</h1>
-          <p className="font-serif italic text-[13px] sm:text-[15px] opacity-95" style={{ color: '#f7efe6' }}>
-            Rendimiento académico y seguimiento institucional
-          </p>
-        </div>
-      </div>
-
       <div className="flex items-center justify-center px-4 py-8 sm:py-16">
         <div className="w-full max-w-md">
           <div className="text-center mb-6 sm:mb-8">
@@ -94,6 +82,7 @@ export default function LoginPage() {
           </div>
 
           <div className="bg-[var(--papel)] border rounded-2xl shadow-[0_8px_24px_rgba(90,22,32,0.08)] p-5 sm:p-7 space-y-4" style={{ borderColor: 'var(--linea)' }}>
+            <div className="h-2 rounded-full" style={{ backgroundColor: 'var(--granate)' }} />
             <p className="text-sm text-[var(--texto-sec)] text-center">
               Ingresa con tu cuenta institucional <span className="font-semibold" style={{ color: 'var(--granate)' }}>@unsa.edu.pe</span> de Google.
             </p>
